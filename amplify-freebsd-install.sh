@@ -198,8 +198,8 @@ opt='-std=c99'
 grep -v gevent packages/nginx-amplify-agent/requirements.txt > packages/nginx-amplify-agent/req-nogevent.txt
 grep gevent packages/nginx-amplify-agent/requirements.txt > packages/nginx-amplify-agent/req-gevent.txt
 
-${pip_command} install --upgrade --target=amplify --no-compile -r packages/nginx-amplify-agent/req-nogevent.txt
-CFLAGS=${opt} ${pip_command} install --upgrade --target=amplify --no-compile -r packages/nginx-amplify-agent/req-gevent.txt
+${pip_command} install --upgrade --no-compile -r packages/nginx-amplify-agent/req-nogevent.txt
+CFLAGS=${opt} ${pip_command} install --upgrade --no-compile -r packages/nginx-amplify-agent/req-gevent.txt
 
 ${sudo_cmd} cp ../setup.py .  # use a better setup.py
 ${sudo_cmd} ${py_command} setup.py install
