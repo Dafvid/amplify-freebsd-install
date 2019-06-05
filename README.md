@@ -1,5 +1,5 @@
 # Usage
-Less invasive install script for nginx amplify
+Less invasive install script for [NGINX amplify](https://amplify.nginx.com)
 
 ```sh
 pkg install py27-virtualenv
