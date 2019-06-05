@@ -28,3 +28,5 @@ location /nginx_status {
 
 
 Start with `service amplify start`
+
+Further reading https://amplify.nginx.com/docs/guide-introduction.html
