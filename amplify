@@ -1,0 +1,42 @@
+#!/bin/sh
+
+#
+# Add the following lines to /etc/rc.conf to enable amplify:
+# amplify_enable (bool):        Set to "YES" to enable amplify
+# amplify_config (str):         Set to amplify config path
+# amplify_virtualenv (str):     Set to virtualenv path REQUIRED
+# amplify_pidfile (str):        Set to amplify pidfile path
+
+
+. /etc/rc.subr
+
+name="amplify"
+rcvar=amplify_enable
+load_rc_config $name
+: ${amplify_config:="/usr/local/etc/amplify-agent/agent.conf"}
+
+_pidprefix="/var/run"
+pidfile=${amplify_pidfile:-"${_pidprefix}/amplify-agent/${name}.pid"}
+
+
+start_precmd="amplify_prestart"
+start_cmd="amplify_start"
+stop_cmd="amplify_stop"
+
+amplify_prestart()
+{
+        if [ -z "${amplify_virtualenv}" ]; then
+                warn "Set ${name}_virtualenv in rc.conf"
+                return 1
+        fi
+}
+amplify_start()
+{
+        ${amplify_virtualenv}/bin/python /usr/bin/nginx-amplify-agent.py start --config=${amplify_config} --pid=${pidfile}
+}
+amplify_stop()
+{
+        ${amplify_virtualenv}/bin/python /usr/bin/nginx-amplify-agent.py stop --config=${amplify_config} --pid=${pidfile}
+}
+
+run_rc_command "$1"
