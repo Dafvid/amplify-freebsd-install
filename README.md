@@ -17,4 +17,14 @@ The `SyntaxError: invalid syntax` message can safely be ignored
 
 Add the `amplify` rc script to `/usr/local/etc/rc.d`
 
+Add to `nginx.conf` in `server`
+```
+location /nginx_status {
+        stub_status on;
+        allow 127.0.0.1;
+        deny all;
+}
+```
+
+
 Start with `service amplify start`
