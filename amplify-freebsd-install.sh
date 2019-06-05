@@ -191,29 +191,18 @@ git clone ${agent_url}
 # Install the Amplify Agent
 cd nginx-amplify-agent
 
-if [ "${os}" = "freebsd" ]; then
-    rel=`uname -r | sed 's/^\(.[^.]*\)\..*/\1/'`
-    test "${rel}" = "11" && \
-	opt='-std=c99'
+rel=`uname -r | sed 's/^\(.[^.]*\)\..*/\1/'`
+test "${rel}" = "11" && \
+opt='-std=c99'
 
-    grep -v gevent packages/nginx-amplify-agent/requirements.txt > packages/nginx-amplify-agent/req-nogevent.txt
-    grep gevent packages/nginx-amplify-agent/requirements.txt > packages/nginx-amplify-agent/req-gevent.txt
+grep -v gevent packages/nginx-amplify-agent/requirements.txt > packages/nginx-amplify-agent/req-nogevent.txt
+grep gevent packages/nginx-amplify-agent/requirements.txt > packages/nginx-amplify-agent/req-gevent.txt
 
-    ${pip_command} install --upgrade --target=amplify --no-compile -r packages/nginx-amplify-agent/req-nogevent.txt
-    CFLAGS=${opt} ${pip_command} install --upgrade --target=amplify --no-compile -r packages/nginx-amplify-agent/req-gevent.txt
-else
-    ${pip_command} install --upgrade --target=amplify --no-compile -r packages/nginx-amplify-agent/requirements.txt
-fi
+${pip_command} install --upgrade --target=amplify --no-compile -r packages/nginx-amplify-agent/req-nogevent.txt
+CFLAGS=${opt} ${pip_command} install --upgrade --target=amplify --no-compile -r packages/nginx-amplify-agent/req-gevent.txt
 
-${sudo_cmd} cp packages/nginx-amplify-agent/setup.py .
+${sudo_cmd} cp ../setup.py .  # use a better setup.py
 ${sudo_cmd} ${py_command} setup.py install
-
-# because setup.py is installing too much
-if [ ! "${agent_conf_path}" = "/etc/amplify-agent" ]; then
-    ${sudo_cmd} rm -f /etc/amplify-agent/*
-    ${sudo_cmd} rmdir /etc/amplify-agent
-fi
-${sudo_cmd} rm -f /etc/logrotate.d/amplify-agent
 
 ${sudo_cmd} cp nginx-amplify-agent.py /usr/bin
 ${sudo_cmd} chown root /usr/bin/nginx-amplify-agent.py
