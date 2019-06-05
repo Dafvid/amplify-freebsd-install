@@ -3,7 +3,7 @@ Less invasive install script for nginx amplify
 
 ```sh
 pkg install py27-virtualenv
-python2 -m virtualenv /path/to/virtualenv
+python2 -m virtualenv /path/to/virtualenv --system-site-packages
 ```
 Add `/path/to/virtualenv` to amplify-freebsd-install.sh
 
