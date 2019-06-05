@@ -200,17 +200,8 @@ grep gevent packages/nginx-amplify-agent/requirements.txt > packages/nginx-ampli
 ${pip_command} install --upgrade --no-compile -r packages/nginx-amplify-agent/req-nogevent.txt
 CFLAGS=${opt} ${pip_command} install --upgrade --no-compile -r packages/nginx-amplify-agent/req-gevent.txt
 
-#${sudo_cmd} cp packages/nginx-amplify-agent/setup.py .
-${sudo_cmd} cp ../setup.py .
+${sudo_cmd} cp ../setup.py .  # use a better setup.py
 ${sudo_cmd} ${py_command} setup.py install
-
-# because setup.py is installing too much
-#if [ ! "${agent_conf_path}" = "/etc/amplify-agent" ]; then
-#    ${sudo_cmd} rm -f /etc/amplify-agent/*
-#    ${sudo_cmd} rmdir /etc/amplify-agent
-#fi
-#${sudo_cmd} rm -f /etc/logrotate.d/amplify-agent
-
 ${sudo_cmd} cp nginx-amplify-agent.py /usr/bin
 ${sudo_cmd} chown root /usr/bin/nginx-amplify-agent.py
 
